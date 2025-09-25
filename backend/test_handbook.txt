@@ -1,0 +1,24 @@
+﻿Company Employee Handbook
+
+Welcome to TechCorp Solutions!
+
+This handbook contains important information about our company policies, procedures, and benefits.
+
+Remote Work Policy:
+- Employees may work remotely up to 3 days per week
+- Core hours are 10 AM - 3 PM EST for team collaboration
+- All remote workers must have reliable internet and a dedicated workspace
+
+Vacation Policy:
+- New employees receive 15 days PTO annually
+- After 3 years, employees receive 20 days PTO annually  
+- Vacation requests must be submitted 2 weeks in advance
+
+Health Benefits:
+- Company covers 80% of health insurance premiums
+- Dental and vision coverage available
+-  annual wellness stipend
+
+Contact Information:
+HR Department: hr@techcorp.com
+IT Support: support@techcorp.com
