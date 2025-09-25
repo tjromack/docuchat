@@ -46,7 +46,7 @@ A production-ready document chat assistant that allows users to upload documents
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/docuchat.git
+   git clone https://github.com/tjromack/docuchat.git
    cd docuchat
    ```
 
@@ -172,5 +172,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - your.email@example.com
+Trevor Romack - tjromack@gmail.com
 Project Link: https://github.com/tjromack/docuchat
