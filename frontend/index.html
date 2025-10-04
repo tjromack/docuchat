@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuChat - Document Chat Assistant</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>DocuChat</h1>
+            <p class="subtitle">Chat with your documents using AI</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar for Documents -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Documents</h2>
+                    <button class="btn-upload" id="uploadBtn">
+                        <span>+ Upload</span>
+                    </button>
+                </div>
+                
+                <div class="document-list" id="documentList">
+                    <p class="empty-state">No documents uploaded yet</p>
+                </div>
+            </aside>
+
+            <!-- Chat Area -->
+            <main class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="welcome-message">
+                        <h2>Welcome to DocuChat!</h2>
+                        <p>Upload documents and ask questions about their content.</p>
+                        <ul class="features-list">
+                            <li>Upload PDF, DOCX, or TXT files</li>
+                            <li>Ask questions in natural language</li>
+                            <li>Get answers with source citations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="scroll-to-bottom" id="scrollToBottom">↓</button>
+
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        id="chatInput" 
+                        class="chat-input" 
+                        placeholder="Ask a question about your documents..."
+                        disabled
+                    >
+                    <button id="sendBtn" class="btn-send" disabled>Send</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Upload Document</h2>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📄</div>
+                <p>Drag and drop your file here</p>
+                <p class="upload-hint">or click to browse</p>
+                <input type="file" id="fileInput" accept=".pdf,.docx,.txt" hidden>
+            </div>
+
+            <div class="upload-info">
+                <p>Supported formats: PDF, DOCX, TXT</p>
+                <p>Maximum size: 10MB</p>
+            </div>
+
+            <div id="uploadProgress" class="upload-progress" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="uploadStatus">Uploading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
