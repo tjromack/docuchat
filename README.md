@@ -1,28 +1,37 @@
-## Project Status
+# DocuChat
 
-**Phase 1 Complete**: Document upload and management system
-- ✅ File upload with validation
-- ✅ Text extraction from PDF/DOCX/TXT
-- ✅ Document metadata storage
-- ✅ RESTful API endpoints
-- ✅ Interactive API documentation
+A document chat assistant built with Retrieval Augmented Generation (RAG) that enables natural language queries over uploaded documents.
 
-**Phase 2 Complete**: RAG Implementation Core
-- ✅ Text chunking with overlap strategy
-- ✅ Vector embeddings (sentence-transformers)
-- ✅ ChromaDB vector database integration
-- ✅ Semantic similarity search
-- ✅ Chat endpoint for Q&A
-- ✅ Complete RAG pipeline (retrieve → augment → generate)
-- 📝 Using mock LLM responses for demo (can integrate OpenAI/Ollama)
+## Overview
 
-<<<<<<< HEAD
-**Phase 3 Planned**: Frontend Interface
-- 🔄 React-based chat interface
-- 🔄 Document upload UI
-- 🔄 Conversation history
-- 🔄 Source document highlighting
-=======
+DocuChat allows users to upload PDF, DOCX, and TXT files, then ask questions about the content in natural language. The system uses vector embeddings and semantic search to find relevant passages and generate answers with source citations.
+
+**Live Demo:** Upload documents and ask questions at the web interface  
+**API Documentation:** Available at `/docs` endpoint when running
+
+## Features
+
+- Document upload with drag-and-drop support
+- Automatic text extraction and intelligent chunking
+- Vector-based semantic search using ChromaDB
+- Real-time chat interface with source citations
+- RESTful API with interactive documentation
+- Responsive web interface (no build tools required)
+
+## Architecture
+
+```
+Document Upload → Text Extraction → Chunking → Embedding → Vector Storage
+                                                              ↓
+User Question → Embedding → Similarity Search → Context Retrieval → Answer Generation
+```
+
+**Key Components:**
+- FastAPI backend with SQLAlchemy ORM
+- ChromaDB for vector storage
+- sentence-transformers for embeddings (384-dimensional)
+- Vanilla HTML/CSS/JS frontend
+
 ## Quick Start
 
 **Prerequisites:** Python 3.8+
@@ -37,32 +46,48 @@ pip install -r requirements.txt
 python -m app.main
 ```
 
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your settings
-   ```
+Server runs at `http://localhost:8000`
 
-4. **Run the application**
-   ```bash
-   python -m app.main
-   ```
+### Frontend Setup
 
-5. **Access the API**
-   - API Documentation: http://localhost:8000/docs
-   - Health Check: http://localhost:8000/health
-   - Upload documents via the interactive docs interface
+```bash
+cd frontend
+python -m http.server 8080
+```
+
+Interface available at `http://localhost:8080`
+
+### Configuration
+
+Create `backend/.env`:
+
+```
+DATABASE_URL=sqlite:///./docuchat.db
+UPLOAD_FOLDER=../data/uploads
+VECTOR_DB_PATH=../data/vectordb
+OPENAI_API_KEY=optional_for_real_llm_responses
+```
 
 ## API Endpoints
 
-### Documents
-- `POST /api/documents/upload` - Upload a document
+**Documents**
+- `POST /api/documents/upload` - Upload and process document
 - `GET /api/documents/` - List all documents
-- `GET /api/documents/{id}` - Get specific document
-- `DELETE /api/documents/{id}` - Delete a document
+- `GET /api/documents/{id}` - Get document details
+- `DELETE /api/documents/{id}` - Delete document
 
-### Health
-- `GET /health` - Health check endpoint
+**Chat**
+- `POST /api/chat/ask` - Ask question about documents
+  ```json
+  {
+    "question": "What is the vacation policy?",
+    "document_id": 1,  // optional
+    "n_results": 5
+  }
+  ```
+
+**System**
+- `GET /health` - Health check
 
 ## Project Structure
 
@@ -70,66 +95,64 @@ python -m app.main
 docuchat/
 ├── backend/
 │   ├── app/
-│   │   ├── models/          # Database models
-│   │   ├── routers/         # API endpoints
-│   │   ├── services/        # Business logic
-│   │   └── main.py          # FastAPI application
-│   ├── requirements.txt     # Python dependencies
-│   └── .env                 # Environment variables
-├── data/
-│   ├── uploads/             # Uploaded files
-│   ├── vectordb/           # Vector database storage
-│   └── processed/          # Processed documents
-└── README.md
+│   │   ├── models/              # SQLAlchemy models
+│   │   ├── routers/             # API route handlers
+│   │   ├── services/            # Core business logic
+│   │   │   ├── text_extractor.py
+│   │   │   ├── text_chunker.py
+│   │   │   ├── embedding_service.py
+│   │   │   ├── vector_store.py
+│   │   │   └── document_processor.py
+│   │   └── main.py
+│   └── requirements.txt
+├── frontend/
+│   ├── index.html
+│   ├── css/style.css
+│   └── js/app.js
+└── data/
+    ├── uploads/                 # Original documents
+    └── vectordb/                # ChromaDB storage
 ```
 
-## Configuration
+## Technical Details
 
-Environment variables in `.env`:
+**Text Processing:**
+- Chunk size: 500 characters
+- Chunk overlap: 100 characters
+- Embedding model: all-MiniLM-L6-v2 (384 dimensions)
 
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-DATABASE_URL=sqlite:///./docuchat.db
-UPLOAD_FOLDER=../data/uploads
-VECTOR_DB_PATH=../data/vectordb
-```
+**Storage:**
+- SQLite for document metadata
+- ChromaDB for vector embeddings
+- Local filesystem for uploaded files
 
-## Usage Examples
+**Current Limitations:**
+- Mock LLM responses (demonstrate RAG pipeline without API costs)
+- Single-user mode
+- 10MB file size limit
 
-### Upload a Document
+## Development Status
+
+**Completed:**
+- Phase 1: Document management system
+- Phase 2: RAG pipeline implementation
+- Phase 3: Web interface
+
+**Planned:**
+- Integration with OpenAI/Anthropic APIs
+- Local LLM support (Ollama)
+- User authentication
+- Conversation history
+- Document collections
+
+## Testing
 
 ```bash
-curl -X POST -F "file=@document.pdf" http://localhost:8000/api/documents/upload
+cd backend
+python test_chunking.py
+python test_embeddings.py
+python test_vector_store.py
 ```
-
-### List Documents
-
-```bash
-curl http://localhost:8000/api/documents/
-```
-
-## Development Roadmap
-
-### Phase 2: RAG Implementation (In Progress)
-- [ ] Text chunking with configurable strategies
-- [ ] Vector embeddings generation
-- [ ] ChromaDB integration for vector storage
-- [ ] Semantic similarity search
-- [ ] Chat endpoint for Q&A
-- [ ] Source attribution and citations
-
-### Phase 3: Frontend Interface
-- [ ] React-based chat interface
-- [ ] Document upload UI
-- [ ] Conversation history
-- [ ] Source document highlighting
-
-### Phase 4: Advanced Features
-- [ ] Multi-user support
-- [ ] Document collections/workspaces
-- [ ] Advanced search filters
-- [ ] Export functionality
-- [ ] Authentication system
 
 ## Contributing
 
@@ -137,10 +160,8 @@ Pull requests welcome. For major changes, please open an issue first to discuss 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see LICENSE file for details
 
 ## Contact
 
-Trevor Romack - tjromack@gmail.com
-Project Link: https://github.com/tjromack/docuchat
->>>>>>> 51a03dc54851788a03cf1fdc000cd4b4136f094d
+GitHub: https://github.com/tjromack/docuchat
