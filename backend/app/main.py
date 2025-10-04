@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import documents_router
+from .routers import documents_router, chat_router  # Add chat_router
 from .models import Base, engine
 import os
 from dotenv import load_dotenv
@@ -26,6 +26,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(documents_router)
+app.include_router(chat_router)  # Add chat router
 
 @app.get("/health")
 async def health_check():
